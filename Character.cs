@@ -52,6 +52,11 @@ namespace event_timers_project
                     this.Ennemies.Add(character);
                     Console.WriteLine($"{this.Name} considère {character.Name} comme un ennemi");
                 }
+                else
+                {
+                    Console.WriteLine($"{this.Name} est neutre envers {character.Name}");
+                }
+                
             }
             else
             {
@@ -60,6 +65,11 @@ namespace event_timers_project
                     this.Friends.Add(character);
                     Console.WriteLine($"{this.Name} considère {character.Name} comme un ami");
                 }
+                else
+                {
+                    Console.WriteLine($"{this.Name} est neutre envers {character.Name}");
+                }
+                
             }
         }
     }
