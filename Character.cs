@@ -46,6 +46,12 @@ namespace event_timers_project
             {
                 Console.WriteLine($"{this.Name} est mort");
                 deadCharacters.Add(this);
+
+                foreach (Character character in characters)
+                {
+                    character.Death -= this.Cry;
+                    character.Death -= this.Laugh;
+                }
                 this.OnDeath(EventArgs.Empty);
             }
         }

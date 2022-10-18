@@ -10,9 +10,9 @@ namespace event_timers_project
         public static List<Character> deadCharacters = new List<Character>();
         static async Task Main(string[] args)
         {
-            Character remy = new Character("Rémy", 2);
-            Character olivier = new Character("Olivier", 4);
-            Character hugo = new Character("Hugo", 6);
+            Character remy = new Character("Rémy");
+            Character olivier = new Character("Olivier");
+            Character hugo = new Character("Hugo");
             characters.Add(remy);
             characters.Add(olivier);
             characters.Add(hugo);
