@@ -8,6 +8,7 @@ namespace event_timers_project
     {
         public static List<Character> characters = new List<Character>();
         public static List<Character> deadCharacters = new List<Character>();
+
         static async Task Main(string[] args)
         {
             Character remy = new Character("Rémy");
@@ -17,13 +18,13 @@ namespace event_timers_project
             characters.Add(olivier);
             characters.Add(hugo);
 
-            foreach (Character character in characters)
-            {
-                character.MakingFriendsAndEnnemies(characters);
-                Console.WriteLine();
-            }
+            MakeFriendsAndEnnemies();
+            Console.WriteLine($"{FindPresident().Name} est président");
+            await LaunchLifeTime();
+        }
 
-
+        private static async Task LaunchLifeTime()
+        {
             while (characters.Count != deadCharacters.Count)
             {
                 foreach (Character character in characters)
@@ -33,6 +34,44 @@ namespace event_timers_project
                 Console.WriteLine();
             }
             Console.WriteLine("Tout le monde est mort");
+        }
+
+        private static void MakeFriendsAndEnnemies()
+        {
+            foreach (Character character in characters)
+            {
+                character.MakingFriendsAndEnnemies(characters);
+                Console.WriteLine();
+            }
+        }
+
+        private static Character FindPresident()
+        {
+            int greatestFriendsCount = 0;
+            int lowestEnnemiesCount = 0;
+
+            foreach (Character character in characters)
+            {
+                if (character.Friends.Count > greatestFriendsCount)
+                {
+                    greatestFriendsCount = character.Friends.Count;
+                    lowestEnnemiesCount = character.Ennemies.Count;
+                    character.IsPresident = true;
+                }
+                else if (character.Friends.Count == greatestFriendsCount)
+                {
+                    if (character.Ennemies.Count < lowestEnnemiesCount)
+                    {
+                        lowestEnnemiesCount = character.Ennemies.Count;
+                        character.IsPresident = true;
+                    }
+                }
+            }
+
+            return characters.Find((character) =>
+            {
+                return character.IsPresident == true;
+            });
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace event_timers_project
@@ -11,6 +10,7 @@ namespace event_timers_project
         public List<Character> Friends { get; set; }
         public List<Character> Ennemies { get; set; }
         public int LifeTime { get; set; }
+        public bool IsPresident { get; set; }
 
         public event EventHandler Death;
 
@@ -20,6 +20,7 @@ namespace event_timers_project
             this.LifeTime = lifeTime;
             this.Friends = new List<Character>();
             this.Ennemies = new List<Character>();
+            this.IsPresident = false;
         }
 
         public Character(string name)
@@ -29,6 +30,7 @@ namespace event_timers_project
             this.LifeTime = rand.Next(1, 10);
             this.Friends = new List<Character>();
             this.Ennemies = new List<Character>();
+            this.IsPresident = false;
         }
 
         public void OnDeath(EventArgs e)
