@@ -20,6 +20,7 @@ namespace event_timers_project
 
             MakeFriendsAndEnnemies();
             Console.WriteLine($"{FindPresident().Name} est président");
+            Console.WriteLine();
             await LaunchLifeTime();
         }
 
@@ -31,7 +32,6 @@ namespace event_timers_project
                 {
                     await character.LifeReduction(characters, deadCharacters);
                 }
-                Console.WriteLine();
             }
             Console.WriteLine("Tout le monde est mort");
         }
@@ -49,6 +49,7 @@ namespace event_timers_project
         {
             int greatestFriendsCount = 0;
             int lowestEnnemiesCount = 0;
+            Character president = new Character();
 
             foreach (Character character in characters)
             {
@@ -56,22 +57,20 @@ namespace event_timers_project
                 {
                     greatestFriendsCount = character.Friends.Count;
                     lowestEnnemiesCount = character.Ennemies.Count;
-                    character.IsPresident = true;
+                    president = character;
                 }
                 else if (character.Friends.Count == greatestFriendsCount)
                 {
                     if (character.Ennemies.Count < lowestEnnemiesCount)
                     {
                         lowestEnnemiesCount = character.Ennemies.Count;
-                        character.IsPresident = true;
+                        president = character;
                     }
                 }
             }
 
-            return characters.Find((character) =>
-            {
-                return character.IsPresident == true;
-            });
+            president.IsPresident = true;
+            return president;
         }
     }
 }

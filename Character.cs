@@ -13,6 +13,7 @@ namespace event_timers_project
         public bool IsPresident { get; set; }
 
         public event EventHandler Death;
+        public event EventHandler PresidentDeath;
 
         public Character(string name, int lifeTime)
         {
@@ -33,9 +34,19 @@ namespace event_timers_project
             this.IsPresident = false;
         }
 
+        public Character()
+        {
+        }
+
         public void OnDeath(EventArgs e)
         {
             EventHandler handler = Death;
+            handler?.Invoke(this, e);
+        }
+
+        public void OnPresidentDeath(EventArgs e)
+        {
+            EventHandler handler = PresidentDeath;
             handler?.Invoke(this, e);
         }
 
@@ -46,16 +57,49 @@ namespace event_timers_project
 
             if (this.LifeTime == 0)
             {
-                Console.WriteLine($"{this.Name} est mort");
                 deadCharacters.Add(this);
+                Console.WriteLine($"{this.Name} est mort");
 
-                foreach (Character character in characters)
+                if (this.IsPresident == true)
                 {
-                    character.Death -= this.Cry;
-                    character.Death -= this.Laugh;
+                    PresidentDeathEvent(characters);
                 }
-                this.OnDeath(EventArgs.Empty);
+                else
+                {
+                    foreach (Character character in characters)
+                    {
+                        character.Death -= this.Cry;
+                        character.Death -= this.Laugh;
+                    }
+                    this.OnDeath(EventArgs.Empty);
+                }
             }
+        }
+
+        private void PresidentDeathEvent(List<Character> characters)
+        {
+            foreach (Character character in characters)
+            {
+                if (character != this)
+                {
+                    if (!character.Ennemies.Contains(this))
+                    {
+                        this.PresidentDeath += character.Tribute;
+                    }
+                }
+            }
+
+            foreach (Character character in characters)
+            {
+                character.Death -= this.Cry;
+                character.Death -= this.Laugh;
+            }
+            this.OnPresidentDeath(EventArgs.Empty);
+        }
+
+        public void Tribute(object sender, EventArgs e)
+        {
+            Console.WriteLine($"{this.Name} rend hommage à la mort du président");
         }
 
         public void Cry(object sender, EventArgs e)
