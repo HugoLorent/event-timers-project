@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace event_timers_project
 {
     class Program
     {
         public static List<Character> characters = new List<Character>();
-        static void Main(string[] args)
+        public static List<Character> deadCharacters = new List<Character>();
+        static async Task Main(string[] args)
         {
-            Character remy = new Character("Rémy");
-            Character olivier = new Character("Olivier");
-            Character hugo = new Character("Hugo");
+            Character remy = new Character("Rémy", 2);
+            Character olivier = new Character("Olivier", 4);
+            Character hugo = new Character("Hugo", 6);
             characters.Add(remy);
             characters.Add(olivier);
             characters.Add(hugo);
@@ -21,20 +23,16 @@ namespace event_timers_project
                 Console.WriteLine();
             }
 
-            foreach (Character character in characters)
+
+            while (characters.Count != deadCharacters.Count)
             {
-                foreach (Character friend in character.Friends)
+                foreach (Character character in characters)
                 {
-                    Console.WriteLine($"{character.Name} est ami avec {friend.Name}");
+                    await character.LifeReduction(characters, deadCharacters);
                 }
-
-                foreach (Character ennemy in character.Ennemies)
-                {
-                    Console.WriteLine($"{character.Name} est ennemi avec {ennemy.Name}");
-                }
-
                 Console.WriteLine();
             }
+            Console.WriteLine("Tout le monde est mort");
         }
     }
 }
